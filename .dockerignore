@@ -1,0 +1,7 @@
+.git
+.env*
+
+dist
+builds
+node_modules
+deploy

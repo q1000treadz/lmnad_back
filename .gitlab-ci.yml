@@ -1,0 +1,68 @@
+variables:
+  IMAGE_TAG: $GLOBAL_REGISTRY/$CI_PROJECT_PATH_SLUG:$CI_COMMIT_REF_SLUG-$CI_PIPELINE_IID
+
+stages:
+  - build
+  - deploy
+
+.dev: &dev_configuration
+  environment: development
+  only:
+    - develop
+  variables:
+    INVENTORY: deploy/ansible/inventory/development
+    VARS_FILE: ./vars/development.yml
+
+.prod: &prod_configuration
+  environment: production
+  only:
+    - main
+  variables:
+    INVENTORY: deploy/ansible/inventory/production
+    VARS_FILE: ./vars/production.yml
+
+.build:
+  stage: build
+  tags:
+    - vvdev
+  before_script:
+    - docker login --username oauth --password $GLOBAL_DOCKER_OAUTH cr.yandex
+  script:
+    - docker build -t $IMAGE_TAG -f deploy/build.dockerfile .
+  after_script:
+    - docker push $IMAGE_TAG
+
+.deploy:
+  stage: deploy
+  image: volgavolga/ansible:1.0.0
+  tags:
+    - vvdev
+  script:
+    - echo "$GLOBAL_RUNNER_SSH_KEY" > deploy_rsa
+    - chmod 400 deploy_rsa
+    - ansible-playbook deploy/ansible/main.yml
+      -i $INVENTORY
+      --private-key deploy_rsa
+      --extra-vars "VARS_FILE=$VARS_FILE"
+      --extra-vars "APP_ENV=\"$APP_ENV\""
+      --extra-vars "IMAGE_TAG=$IMAGE_TAG"
+
+# DEVELOPMENT
+build:dev:
+  <<: *dev_configuration
+  stage: build
+  extends: .build
+
+deploy:dev:
+  <<: *dev_configuration
+  extends: .deploy
+
+# PRODUCTION
+build:prod:
+  <<: *prod_configuration
+  stage: build
+  extends: .build
+
+deploy:prod:
+  <<: *prod_configuration
+  extends: .deploy
