@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Init1700420022783 implements MigrationInterface {
-    name = 'Init1700420022783'
+export class Init1700589350545 implements MigrationInterface {
+    name = 'Init1700589350545'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`files\` (\`id\` int NOT NULL AUTO_INCREMENT, \`name\` varchar(200) NOT NULL, \`url\` varchar(300) NOT NULL, \`state\` varchar(20) NOT NULL DEFAULT 'active', PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
@@ -12,8 +12,8 @@ export class Init1700420022783 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`sources\` ADD CONSTRAINT \`FK_c2239045db0b993c7bf40e5dc7f\` FOREIGN KEY (\`file_id\`) REFERENCES \`files\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`file-record\` ADD CONSTRAINT \`FK_3e33fa17a81aad0afa84ad6db97\` FOREIGN KEY (\`record_id\`) REFERENCES \`records\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`file-record\` ADD CONSTRAINT \`FK_455b77681aff6b635aebc5d699c\` FOREIGN KEY (\`file_id\`) REFERENCES \`files\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`records_sources\` ADD CONSTRAINT \`FK_ca6ab052f00d3b4c0482b8c981d\` FOREIGN KEY (\`record_id\`) REFERENCES \`sources\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE \`records_sources\` ADD CONSTRAINT \`FK_a55477959a77137737264fed874\` FOREIGN KEY (\`source_id\`) REFERENCES \`records\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`);
+        await queryRunner.query(`ALTER TABLE \`records_sources\` ADD CONSTRAINT \`FK_ca6ab052f00d3b4c0482b8c981d\` FOREIGN KEY (\`record_id\`) REFERENCES \`records\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`);
+        await queryRunner.query(`ALTER TABLE \`records_sources\` ADD CONSTRAINT \`FK_a55477959a77137737264fed874\` FOREIGN KEY (\`source_id\`) REFERENCES \`sources\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

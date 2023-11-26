@@ -7,9 +7,10 @@ import { FileRecord } from 'src/database/entities/file-record/file-record.entity
 import FileEntity from 'src/database/entities/file/file.entity';
 import Record from 'src/database/entities/record/record.entity';
 import { SourceController } from './source.controller';
+import { RecordModule } from '../record/record.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Source, Record, FileEntity, FileRecord])],
+  imports: [TypeOrmModule.forFeature([Source, Record, FileEntity, FileRecord]), RecordModule],
   controllers:[SourceController],
   providers: [SourceService],
   exports: [SourceService],

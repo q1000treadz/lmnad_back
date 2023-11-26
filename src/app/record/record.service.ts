@@ -47,7 +47,7 @@ export class RecordService {
   }
 
   async getRecords() {
-    return this.recordRepository.findOneOrFail({
+    const records = await this.recordRepository.find({
       relations: {
         record_files: true,
         sources: {
@@ -55,5 +55,7 @@ export class RecordService {
         },
       },
     });
+    console.log(records)
+    return records;
   }
 }

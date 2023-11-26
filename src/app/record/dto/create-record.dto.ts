@@ -31,6 +31,10 @@ export class CreateRecordDto {
     @ApiProperty({ description: 'Характеристика пространства(масштаб)'})
     @IsString()
     public scale: string;
+
+    @ApiProperty({ description: 'Погода'})
+    @IsString()
+    public weather: string;
     @ApiProperty({ description: 'Источник генерации'})
     @IsString()
     public source_generation: string;

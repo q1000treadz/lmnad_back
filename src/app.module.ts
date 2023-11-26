@@ -9,9 +9,15 @@ import Source from './database/entities/sources/source.entity';
 import { SourceModule } from './app/source/source.module';
 import { RecordModule } from './app/record/record.module';
 import { FileModule } from './app/file/file.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'files'),       serveStaticOptions: { index: false },
+
+    // }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',

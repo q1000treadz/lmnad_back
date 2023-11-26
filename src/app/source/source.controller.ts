@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { CreateSourceDto } from "./dto/create-source.dto";
 import { SourceService } from "./source.service";
+import { CreateSourceWithRecordsDto } from "./dto/create-source-with-records.dto";
 
 @Controller('api/source')
 export class SourceController {
@@ -10,17 +11,21 @@ export class SourceController {
     ){}
 
     @Post('')
-    async createRecord(@Body() createSource: CreateSourceDto) {
+    async createSource(@Body() createSource: CreateSourceDto) {
         return await this.sourceService.createSource(createSource);
     }
-
+    @Post('withRecords')
+    async createSourceWithRecords(@Body() createSource: CreateSourceWithRecordsDto) {
+        return await this.sourceService.createSourceWithRecords(createSource);
+    }
+    @Get('')
+    async getSources() {
+        return await this.sourceService.getSources();
+    }
     @Get(':id')
-    async getIdByRecord(@Param('id') id: number) {
+    async getIdBySource(@Param('id') id: number) {
         return await this.sourceService.getOneSource(+id);
     }
 
-    @Get('')
-    async getRecords() {
-        return await this.sourceService.getSources();
-    }
+    
 }

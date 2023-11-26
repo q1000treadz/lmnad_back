@@ -37,22 +37,11 @@ import Record from '../record/record.entity';
     @Column()
     public bibliographic_reference_harvard: string;
     @ApiProperty({ type: [Record] })
-    @ManyToMany(() => Record, { onDelete: 'CASCADE', onUpdate: 'CASCADE', cascade: true })
-  @JoinTable({
-    name: 'records_sources',
-    joinColumn: {
-      name: 'record_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'source_id',
-      referencedColumnName: 'id',
-    },
-  })
+    @ManyToMany(() => Record, record => record.sources)
     public records?: Record[];
 
     @ApiProperty({ type: () => FileEntity })
-    @ManyToOne(() => FileEntity)
+    @ManyToOne(() => FileEntity, {nullable: true})
     @JoinColumn({name: 'file_id'})
     public file: FileEntity;
   }

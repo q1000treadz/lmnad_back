@@ -14,13 +14,15 @@ export class RecordController {
         return await this.recordService.createRecord(createRecord);
     }
 
+    @Get('')
+    async getRecords() {
+        console.log('all')
+        return await this.recordService.getRecords();
+    }
     @Get(':id')
     async getIdByRecord(@Param('id') id: number) {
         return await this.recordService.getOneRecord(+id);
     }
 
-    @Get('')
-    async getRecords() {
-        return await this.recordService.getRecords();
-    }
+    
 }

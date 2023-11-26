@@ -51,13 +51,27 @@ export default class Record {
   @ApiProperty({ description: 'Характеристика пространства(масштаб)'})
   @Column()
   public scale: string;
+  @ApiProperty({ description: 'Погода'})
+  @Column({nullable: true})
+  public weather: string;
   @ApiProperty({ description: 'Источник генерации'})
   @Column()
   public source_generation: string;
 
 
   @ApiProperty({ type: [Source] })
-  @ManyToMany(() => Source, source => source.records)
+  @ManyToMany(() => Source, source => source.records, { onDelete: 'CASCADE', onUpdate: 'CASCADE', cascade: true })
+  @JoinTable({
+    name: 'records_sources',
+    joinColumn: {
+      name: 'record_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'source_id',
+      referencedColumnName: 'id',
+    },
+  })
   public sources: Source[];
 
 
