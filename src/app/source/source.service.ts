@@ -38,7 +38,6 @@ export class SourceService {
     
     const file = data?.file_id ? await this.fileRepository.findOne({ where: { id: data.file_id }}) : null;
     const records = await this.recordRepository.find({ where: { id: In(data.record_ids)}});
-    console.log(file, records)
     return await this.sourceRepository.save({
       ...data,
       file,
