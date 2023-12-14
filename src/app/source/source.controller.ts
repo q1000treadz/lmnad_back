@@ -2,8 +2,11 @@ import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { CreateSourceDto } from "./dto/create-source.dto";
 import { SourceService } from "./source.service";
 import { CreateSourceWithRecordsDto } from "./dto/create-source-with-records.dto";
+import { ApiTags } from "@nestjs/swagger";
 
-@Controller('api/source')
+
+@ApiTags('Источник')
+@Controller('source')
 export class SourceController {
 
     constructor(

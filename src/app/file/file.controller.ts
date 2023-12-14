@@ -5,7 +5,11 @@ import {  diskStorage  } from 'multer';
 
 import { fileName, fileFilter } from 'src/utils/multer/img-update.utils';
 import { UpdateFileDto } from './dto/update-file.dto';
-@Controller('api/file')
+import { ApiTags } from "@nestjs/swagger";
+
+
+@ApiTags('Загрузка файлов')
+@Controller('file')
 export class FileController {
 
     constructor(

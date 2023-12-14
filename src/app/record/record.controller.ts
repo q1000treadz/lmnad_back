@@ -1,8 +1,11 @@
 import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { RecordService } from "./record.service";
 import { CreateRecordDto } from "./dto/create-record.dto";
+import { ApiTags } from "@nestjs/swagger";
 
-@Controller('api/record')
+
+@ApiTags('Наблюдение')
+@Controller('record')
 export class RecordController {
 
     constructor(
